@@ -32,9 +32,20 @@ git clone git@github.com:xinnaider/skills.git ~/skills
 ```
 
 Cada agente lê skills de um diretório próprio (ex.: `~/.claude/skills` no Claude
-Code). Crie um link simbólico de cada skill para lá.
+Code) e exige que cada skill seja **filho direto** desse diretório — por isso é
+um link por skill, não um link da pasta inteira.
 
-### macOS / Linux
+### Tudo de uma vez (`install.sh`)
+
+```bash
+./install.sh                  # alvo padrão ~/.claude/skills
+./install.sh ~/.codex/skills  # outro agente
+```
+
+O script percorre as subpastas que têm `SKILL.md` e cria/atualiza um symlink de
+cada uma no diretório alvo.
+
+### Manual (macOS / Linux)
 
 ```bash
 ln -s ~/skills/model-routing ~/.claude/skills/model-routing
