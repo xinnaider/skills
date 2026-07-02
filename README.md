@@ -7,19 +7,23 @@ Cada subpasta é uma skill autocontida com um `SKILL.md` (frontmatter `name` +
 ## Skills
 
 ### `model-routing`
-Roteamento de modelos e orquestração por subagents. Princípio: **opus decide,
-sonnet constrói, haiku procura.** A thread principal (opus) pensa, planeja e
-sintetiza; delega busca de contexto a subagents haiku (até 4 em paralelo) e
-alteração de código a subagents sonnet. Inclui tabela de roteamento, fluxo de
-busca (entender raso → disparar → sintetizar) e regras de julgamento sobre
-quando *não* vale a pena delegar.
+Roteamento de modelos e orquestração por subagents. Princípio: **o modelo
+principal da sessão decide, um tier médio constrói, um tier barato procura.**
+A thread principal (o modelo que o usuário selecionou — Fable, Opus, etc.)
+pensa, planeja e sintetiza; delega busca de contexto a subagents haiku (até 4
+em paralelo) e alteração de código a subagents sonnet — ou, para código
+crítico, a um subagent sem override de `model` (herda o modelo da sessão).
+Inclui tabela de roteamento, fluxo de busca (entender raso → disparar →
+sintetizar) e regras de julgamento sobre quando *não* vale a pena delegar.
 
 ### `criar-pr`
 Abre PR e acompanha até o destino pedido (`develop` ou `master`), esperando
 **todas** as pipelines passarem. O poll é delegado a um subagent haiku (barato);
-se uma pipe falha, um subagent opus diagnostica e corrige, e o haiku retoma o
-acompanhamento. Para `master`, passa por `develop` primeiro. Cobre retry de
-`gh` em 401 intermitente, regras de merge e formato de PR/commit.
+se uma pipe falha, um subagent no modelo principal da sessão diagnostica e
+corrige, e o haiku retoma o acompanhamento. Para `master`, passa por `develop`
+primeiro; repos com outros nomes de branch (`main`, `homolog`) são detectados e
+confirmados. Cobre retry de `gh` em 401 intermitente, regras de merge e formato
+de PR/commit.
 
 ## Instalação (symlink)
 
